@@ -1,20 +1,102 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
+  const [enteredGoalText, setEnteredGoalText] = useState("");
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoalText(enteredText);
+  };
+  const addGoalHandler = () => {
+    setCourseGoals((prevCoureseGoals) => [
+      ...prevCoureseGoals,
+      // enteredGoalText,
+      // { text: enteredGoalText, key: Math.random().toString() },
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]);
+  };
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.appContainer}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goal"
+          onChangeText={goalInputHandler}
+        />
+        <Button title="Add Goal" onPress={addGoalHandler} />
+      </View>
+      <View style={styles.goalsContainer}>
+        {/* <ScrollView>
+          {courseGoals.map((courseGoal, index) => (
+            <View key={index} style={styles.goalItem}>
+              <Text style={styles.goalText}>{courseGoal}</Text>
+            </View>
+          ))}
+        </ScrollView> */}
+        {/* <FlatList
+          data={courseGoals}
+          renderItem={({ item }) => (
+            <View style={styles.goalItem}>
+              <Text style={styles.goalText}>{item.text}</Text>
+            </View>
+          )}
+        ></FlatList> */}
+        <FlatList
+          data={courseGoals}
+          renderItem={({ item }) => (
+            <View style={styles.goalItem}>
+              <Text style={styles.goalText}>{item.text}</Text>
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 20,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    width: "70%",
+    padding: 8,
+    margin: 8,
+  },
+  goalsContainer: {
+    flex: 5,
+  },
+  goalItem: {
+    padding: 8,
+    margin: 8,
+    backgroundColor: "violet",
+    borderRadius: 14,
+  },
+  goalText: {
+    color: "white",
   },
 });
