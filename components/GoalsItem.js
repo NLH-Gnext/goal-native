@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   goalItem: {
     margin: 8,
     backgroundColor: "violet",
-    borderRadius: 14,
+    borderRadius: 6,
   },
   goalText: {
     padding: 8,
